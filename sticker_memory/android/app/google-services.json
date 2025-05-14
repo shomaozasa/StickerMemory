@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "140908113031",
+    "project_id": "stickermemory-2af26",
+    "storage_bucket": "stickermemory-2af26.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:140908113031:android:9a4d5a19658f64deb51c22",
+        "android_client_info": {
+          "package_name": "com.example.sticker_memory"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyByDB-qb8mp47CgppR2JaGp8y1rPyr3ixs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
