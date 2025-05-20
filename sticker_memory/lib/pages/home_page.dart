@@ -12,6 +12,12 @@ class HomePage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             ElevatedButton(
+              child: const Text('スタンプ登録画面へGO！'),
+              onPressed: () {
+                Navigator.pushNamed(context, '/stamp');
+              },
+            ),
+            ElevatedButton(
               child: const Text('ステッカー台紙へGO！'),
               onPressed: () {
                 Navigator.pushNamed(context, '/sticker');

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'pages/home_page.dart';
 import 'pages/sticker_board.dart';
+import 'pages/registration_sticker.dart';
 // import 'package:firebase_core/firebase_core.dart';
 // import 'firebase_options.dart';
 
@@ -24,6 +25,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (context) => const HomePage(),
         '/sticker': (context) => const StickerBoardPage(),
+        '/stamp': (context) => ImagePickerPage(),
       },
     );
   }
