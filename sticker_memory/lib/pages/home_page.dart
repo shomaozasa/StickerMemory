@@ -29,6 +29,12 @@ class HomePage extends StatelessWidget {
                 Navigator.pushNamed(context, '/settings');
               },
             ),
+            ElevatedButton(
+              child: const Text('アカウント登録'),
+              onPressed: () {
+                Navigator.pushNamed(context, '/registration');
+              },
+            ),
           ],
         ),
       ),

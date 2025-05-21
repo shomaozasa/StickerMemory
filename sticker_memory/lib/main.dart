@@ -2,14 +2,13 @@ import 'package:flutter/material.dart';
 import 'pages/home_page.dart';
 import 'pages/sticker_board.dart';
 import 'pages/registration_sticker.dart';
-// import 'package:firebase_core/firebase_core.dart';
-// import 'firebase_options.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'pages/registration_account.dart';
+import 'firebase_options.dart';
 
 void main() async {
-  // WidgetsFlutterBinding.ensureInitialized();
-  // await Firebase.initializeApp(
-  //   options: DefaultFirebaseOptions.currentPlatform,
-  // );
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(const MyApp());
 }
 
@@ -26,6 +25,7 @@ class MyApp extends StatelessWidget {
         '/': (context) => const HomePage(),
         '/sticker': (context) => const StickerBoardPage(),
         '/stamp': (context) => ImagePickerPage(),
+        '/registration': (context) => RegistrationPage(),
       },
     );
   }
