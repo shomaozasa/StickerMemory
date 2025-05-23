@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'pages/home_page.dart';
+import 'pages/login_account.dart';
 import 'pages/sticker_board.dart';
 import 'pages/registration_sticker.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'pages/registration_account.dart';
 import 'firebase_options.dart';
 
@@ -17,16 +19,29 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Multi Page App',
-      theme: ThemeData(primarySwatch: Colors.teal),
-      initialRoute: '/',
-      routes: {
-        '/': (context) => const HomePage(),
-        '/sticker': (context) => const StickerBoardPage(),
-        '/stamp': (context) => ImagePickerPage(),
-        '/registration': (context) => RegistrationPage(),
-      },
-    );
+    final user = FirebaseAuth.instance.currentUser;
+    if (user == null) {
+      return MaterialApp(
+        title: 'Flutter Multi Page App',
+        theme: ThemeData(primarySwatch: Colors.teal),
+        initialRoute: '/login',
+        routes: {
+          '/login': (context) => LoginPage(),
+          '/registration': (context) => RegistrationPage(),
+        },
+      );
+    } else {
+      return MaterialApp(
+        title: 'Flutter Multi Page App',
+        theme: ThemeData(primarySwatch: Colors.teal),
+        initialRoute: '/',
+        routes: {
+          '/': (context) => const HomePage(),
+          '/sticker': (context) => const StickerBoardPage(),
+          '/stamp': (context) => ImagePickerPage(),
+          '/registration': (context) => RegistrationPage(),
+        },
+      );
+    }
   }
 }

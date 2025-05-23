@@ -10,17 +10,20 @@ class RegistrationPage extends StatefulWidget {
 class _RegistrationPageState extends State<RegistrationPage> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  final _usernameController = TextEditingController();
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   void _register() async {
     try {
       final email = _emailController.text.trim();
       final password = _passwordController.text.trim();
+      final username = _usernameController.text.trim();
 
       await _auth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
+      await _auth.currentUser?.updateDisplayName(username);
 
       // 登録成功時のメッセージと画面遷移
       if (context.mounted) {
@@ -53,6 +56,10 @@ class _RegistrationPageState extends State<RegistrationPage> {
             TextField(
               controller: _emailController,
               decoration: InputDecoration(labelText: 'メールアドレス'),
+            ),
+            TextField(
+              controller: _usernameController,
+              decoration: InputDecoration(labelText: 'ユーザー名'),
             ),
             TextField(
               controller: _passwordController,
