@@ -19,29 +19,33 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final user = FirebaseAuth.instance.currentUser;
-    if (user == null) {
-      return MaterialApp(
-        title: 'Flutter Multi Page App',
-        theme: ThemeData(primarySwatch: Colors.teal),
-        initialRoute: '/login',
-        routes: {
-          '/login': (context) => LoginPage(),
-          '/registration': (context) => RegistrationPage(),
+    return MaterialApp(
+      title: 'Sticker Memory',
+      theme: ThemeData(primarySwatch: Colors.teal),
+      // 認証状態の変更に反応するためにStreamBuilderを使用します
+      home: StreamBuilder<User?>(
+        stream: FirebaseAuth.instance.authStateChanges(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            // 認証状態の確認中にローディングスピナーを表示
+            return const CircularProgressIndicator();
+          }
+          if (snapshot.hasData) {
+            // ユーザーがログインしている場合
+            return const HomePage();
+          } else {
+            // ユーザーがログインしていない場合
+            return LoginPage();
+          }
         },
-      );
-    } else {
-      return MaterialApp(
-        title: 'Flutter Multi Page App',
-        theme: ThemeData(primarySwatch: Colors.teal),
-        initialRoute: '/',
-        routes: {
-          '/': (context) => const HomePage(),
-          '/sticker': (context) => const StickerBoardPage(),
-          '/stamp': (context) => ImagePickerPage(),
-          '/registration': (context) => RegistrationPage(),
-        },
-      );
-    }
+      ),
+      routes: {
+        // ログイン状態に関わらず、すべての可能なルートをここに定義します
+        '/login': (context) => LoginPage(),
+        '/registration': (context) => RegistrationPage(),
+        '/sticker': (context) => StickerBoardPage(),
+        '/stamp': (context) => ImagePickerPage(), 
+      },
+    );
   }
 }
