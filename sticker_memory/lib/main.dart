@@ -47,6 +47,8 @@ class MyApp extends StatelessWidget {
         '/registration': (context) => RegistrationPage(),
         '/sticker': (context) => StickerBoardPage(),
         '/stamp': (context) => ImagePickerPage(),
+        '/setting': (context) => SettingsPage(),
+        '/sticker_view': (context) => StickerViewPage(),
       },
     );
   }
