@@ -45,7 +45,7 @@ class MyApp extends StatelessWidget {
         // ログイン状態に関わらず、すべての可能なルートをここに定義します
         '/login': (context) => LoginPage(),
         '/registration': (context) => RegistrationPage(),
-        '/sticker': (context) => StickerBoardPage(),
+        '/sticker_board': (context) => StickerBoardPage(),
         '/stamp': (context) => ImagePickerPage(),
         '/setting': (context) => SettingsPage(),
         '/sticker_view': (context) => StickerViewPage(),

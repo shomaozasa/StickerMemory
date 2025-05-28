@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart'; // 触覚フィードバック用
 import 'dart:math';
+import 'setting.dart'; // 設定ページのインポート
+import 'package:sticker_memory/pages/registration_sticker.dart'; // ステッカー登録ページのインポート
+import 'custom_appbar.dart'; // カスタムAppBarのインポート
 
 void main() {
   runApp(const MyApp());
@@ -13,10 +16,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'ステッカー台紙',
-      theme: ThemeData(
-        useMaterial3: true,
-        colorSchemeSeed: Colors.teal,
-      ),
+      theme: ThemeData(useMaterial3: true, colorSchemeSeed: Colors.teal),
       home: const StickerBoardPage(),
     );
   }
@@ -49,7 +49,7 @@ class _StickerBoardPageState extends State<StickerBoardPage> {
       builder: (context, constraints) {
         final isTablet = constraints.maxWidth > 800;
         final isMobile = constraints.maxWidth <= 600;
-        
+
         if (isTablet) {
           // タブレット・PC用の横並びレイアウト
           return _buildTabletLayout();
@@ -63,6 +63,7 @@ class _StickerBoardPageState extends State<StickerBoardPage> {
 
   Widget _buildTabletLayout() {
     return Scaffold(
+      appBar: const CustomAppBar(title: 'メモリー作成'),
       body: Row(
         children: [
           _buildStickerPanel(width: 250),
@@ -77,9 +78,7 @@ class _StickerBoardPageState extends State<StickerBoardPage> {
       body: Stack(
         children: [
           // メインエリアを常に表示
-          Positioned.fill(
-            child: _buildMainArea(),
-          ),
+          Positioned.fill(child: _buildMainArea()),
           // ステッカーパネルをオーバーレイとして表示
           if (_showStickerPanel) ...[
             // 背景オーバーレイ
@@ -90,9 +89,7 @@ class _StickerBoardPageState extends State<StickerBoardPage> {
                     _showStickerPanel = false;
                   });
                 },
-                child: Container(
-                  color: Colors.black.withOpacity(0.3),
-                ),
+                child: Container(color: Colors.black.withOpacity(0.3)),
               ),
             ),
             // ステッカーパネル
@@ -103,10 +100,9 @@ class _StickerBoardPageState extends State<StickerBoardPage> {
               child: Material(
                 elevation: 8,
                 child: Container(
-                  width: isMobile ? MediaQuery.of(context).size.width * 0.8 : 300,
-                  decoration: const BoxDecoration(
-                    color: Color(0xFFDDE8E5),
-                  ),
+                  width:
+                      isMobile ? MediaQuery.of(context).size.width * 0.8 : 300,
+                  decoration: const BoxDecoration(color: Color(0xFFDDE8E5)),
                   child: _buildStickerPanelContent(),
                 ),
               ),
@@ -183,11 +179,13 @@ class _StickerBoardPageState extends State<StickerBoardPage> {
                       _showStickerPanel = false;
                     }
                   });
-                  
+
                   // デバッグ用：ステッカーが追加されたことを確認
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
-                      content: Text('ステッカーを追加しました (合計: ${placedStickers.length}個)'),
+                      content: Text(
+                        'ステッカーを追加しました (合計: ${placedStickers.length}個)',
+                      ),
                       duration: const Duration(seconds: 1),
                     ),
                   );
@@ -259,8 +257,10 @@ class _StickerBoardPageState extends State<StickerBoardPage> {
                             child: GestureDetector(
                               onPanUpdate: (details) {
                                 setState(() {
-                                  final dx = sticker.offset.dx + details.delta.dx;
-                                  final dy = sticker.offset.dy + details.delta.dy;
+                                  final dx =
+                                      sticker.offset.dx + details.delta.dx;
+                                  final dy =
+                                      sticker.offset.dy + details.delta.dy;
                                   sticker.offset = Offset(
                                     dx.clamp(0.0, constraints.maxWidth - 80),
                                     dy.clamp(0.0, constraints.maxHeight - 80),
@@ -287,9 +287,16 @@ class _StickerBoardPageState extends State<StickerBoardPage> {
                                   child: Container(
                                     padding: const EdgeInsets.all(4),
                                     decoration: BoxDecoration(
-                                      border: sticker.isSelected 
-                                        ? Border.all(color: Colors.blue, width: 3)
-                                        : Border.all(color: Colors.transparent, width: 3),
+                                      border:
+                                          sticker.isSelected
+                                              ? Border.all(
+                                                color: Colors.blue,
+                                                width: 3,
+                                              )
+                                              : Border.all(
+                                                color: Colors.transparent,
+                                                width: 3,
+                                              ),
                                       borderRadius: BorderRadius.circular(8),
                                     ),
                                     child: Stack(
@@ -298,20 +305,30 @@ class _StickerBoardPageState extends State<StickerBoardPage> {
                                       children: [
                                         Container(
                                           decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(4),
-                                            boxShadow: sticker.isSelected ? [
-                                              BoxShadow(
-                                                color: Colors.blue.withOpacity(0.3),
-                                                blurRadius: 8,
-                                                spreadRadius: 2,
-                                              ),
-                                            ] : null,
+                                            borderRadius: BorderRadius.circular(
+                                              4,
+                                            ),
+                                            boxShadow:
+                                                sticker.isSelected
+                                                    ? [
+                                                      BoxShadow(
+                                                        color: Colors.blue
+                                                            .withOpacity(0.3),
+                                                        blurRadius: 8,
+                                                        spreadRadius: 2,
+                                                      ),
+                                                    ]
+                                                    : null,
                                           ),
                                           child: Image.asset(
                                             sticker.imagePath,
                                             width: 80,
                                             height: 80,
-                                            errorBuilder: (context, error, stackTrace) {
+                                            errorBuilder: (
+                                              context,
+                                              error,
+                                              stackTrace,
+                                            ) {
                                               return Container(
                                                 width: 80,
                                                 height: 80,
@@ -324,7 +341,8 @@ class _StickerBoardPageState extends State<StickerBoardPage> {
                                             },
                                           ),
                                         ),
-                                        if (sticker.isSelected) ..._buildControlButtons(sticker),
+                                        if (sticker.isSelected)
+                                          ..._buildControlButtons(sticker),
                                       ],
                                     ),
                                   ),
@@ -338,7 +356,10 @@ class _StickerBoardPageState extends State<StickerBoardPage> {
                           top: 10,
                           right: 10,
                           child: Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 8,
+                              vertical: 4,
+                            ),
                             decoration: BoxDecoration(
                               color: Colors.black.withOpacity(0.7),
                               borderRadius: BorderRadius.circular(12),
@@ -446,7 +467,7 @@ class _StickerBoardPageState extends State<StickerBoardPage> {
   }
 
   Widget _buildControlButton({
-    required IconData icon, 
+    required IconData icon,
     required VoidCallback onPressed,
     required double size,
     required double iconSize,
@@ -477,11 +498,7 @@ class _StickerBoardPageState extends State<StickerBoardPage> {
                 ),
               ],
             ),
-            child: Icon(
-              icon, 
-              size: iconSize,
-              color: color,
-            ),
+            child: Icon(icon, size: iconSize, color: color),
           ),
         ),
       ),
@@ -553,25 +570,26 @@ class _StickerBoardPageState extends State<StickerBoardPage> {
   void _showDeleteDialog(_PlacedSticker sticker) {
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('ステッカーを削除'),
-        content: const Text('このステッカーを削除しますか？'),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(),
-            child: const Text('キャンセル'),
+      builder:
+          (context) => AlertDialog(
+            title: const Text('ステッカーを削除'),
+            content: const Text('このステッカーを削除しますか？'),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(),
+                child: const Text('キャンセル'),
+              ),
+              TextButton(
+                onPressed: () {
+                  setState(() {
+                    placedStickers.remove(sticker);
+                  });
+                  Navigator.of(context).pop();
+                },
+                child: const Text('削除'),
+              ),
+            ],
           ),
-          TextButton(
-            onPressed: () {
-              setState(() {
-                placedStickers.remove(sticker);
-              });
-              Navigator.of(context).pop();
-            },
-            child: const Text('削除'),
-          ),
-        ],
-      ),
     );
   }
 }
