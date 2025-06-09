@@ -59,4 +59,5 @@ class DefaultFirebaseOptions {
     projectId: 'stickermemory-2af26',
     storageBucket: 'stickermemory-2af26.firebasestorage.app',
   );
+
 }
